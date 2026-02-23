@@ -46,11 +46,11 @@ const defaultContent: ContentData = {
     subtitle: "Electronic Press Kit",
     description1: "DJ y Productor Chileno",
     description2: "Underground Techno • Oetraxxrecords",
-    backgroundImage: "/PRESKIT MATERIAL/fotos croix/DJ/1.jpeg"
+    backgroundImage: "/PRESKIT MATERIAL/fotos croix/estudio/Fotos Croix _10.JPG"
   },
   bioData: {
     title: "Acerca de CROIX",
-    image: "/PRESKIT MATERIAL/fotos croix/DJ/2.jpeg",
+    image: "/PRESKIT MATERIAL/fotos croix/estudio/Fotos Croix _2.JPG",
     paragraph1: "**Croix** es un DJ y productor chileno que se ha convertido en una figura esencial del **techno underground e irreverente**. Fundador del sello **Oetraxxrecords**, su sonido se define por una **energía inagotable** y un uso audaz del sampling diseñado para el clímax de la pista.",
     paragraph2: "Su prolífica carrera en el estudio cuenta con lanzamientos en sellos internacionales y nacionales de renombre, destacando trabajos como el **Hot Rhythms EP** en **SpaceRecords**, **Calentando EP** en **Gruvalismo**, **Sustancia EP** en **KRAFT.rec**, y su track **Worker** bajo el sello **[One:Thirty]**.",
     paragraph3: "Más allá de sus lanzamientos en solitario, Croix ha dejado su marca en importantes compilados de varios artistas (VA), incluyendo **NASTY TRAX VOL.6** (con su track Acid Work), **ONE THIRTY Vol. 2**, **PHANTASOS 03** de **Oneiros Records**, e inicios potentes en los primeros volúmenes de **IMPCORE Records** y **KEEPISTFAST**.",
