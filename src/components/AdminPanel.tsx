@@ -23,6 +23,7 @@ interface AdminPanelProps {
 const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
   const [loginData, setLoginData] = useState({ email: '', password: '' })
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [activeTab, setActiveTab] = useState('biografia')
   const [supabaseStatus, setSupabaseStatus] = useState<{
     configured: boolean
     loading: boolean
@@ -190,100 +191,193 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
               </Card>
             </div>
           ) : (
-            /* Admin Interface */
-            <div className="h-[calc(90vh-80px)] overflow-y-auto">
-              <div className="p-6">
-                <div className="text-center py-12">
-                  <Shield className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                  <h3 className="font-semibold text-lg mb-2">Panel de Administración</h3>
-                  <p className="text-muted-foreground mb-4">
-                    ¡Bienvenido al panel de administración de CROIX!
-                  </p>
-                  
-                  <div className="space-y-3 text-sm text-muted-foreground max-w-2xl mx-auto">
-                    {/* Estado de Supabase */}
-                    <div className={`p-4 border rounded-lg ${
-                      supabaseStatus.loading 
-                        ? 'bg-blue-50 border-blue-200 text-blue-800' 
-                        : supabaseStatus.configured
-                          ? 'bg-green-50 border-green-200 text-green-800'
-                          : 'bg-yellow-50 border-yellow-200 text-yellow-800'
-                    }`}>
-                      <div className="flex items-center justify-center gap-2 mb-2">
-                        {supabaseStatus.loading ? (
-                          <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
-                        ) : supabaseStatus.configured ? (
-                          <CheckCircle className="w-5 h-5 text-green-600" />
-                        ) : (
-                          <AlertCircle className="w-5 h-5 text-yellow-600" />
-                        )}
-                        <p className="font-medium">
-                          {supabaseStatus.loading 
-                            ? 'Verificando configuración...'
-                            : supabaseStatus.configured
-                              ? '✅ Supabase configurado correctamente'
-                              : '🔧 Configuración de Supabase requerida'
-                          }
-                        </p>
-                      </div>
-                      
-                      {!supabaseStatus.loading && !supabaseStatus.configured && (
-                        <div>
-                          <p>Para usar todas las funcionalidades del panel:</p>
-                          <ol className="list-decimal list-inside mt-2 space-y-1">
-                            <li>Revisa el archivo <code className="bg-yellow-100 px-1 rounded">SUPABASE_SETUP.md</code></li>
-                            <li>Crea un proyecto en Supabase</li>
-                            <li>Ejecuta las consultas SQL proporcionadas</li>
-                            <li>Actualiza las variables de entorno en .env.local</li>
-                          </ol>
-                          {supabaseStatus.error && (
-                            <p className="text-red-600 mt-2 font-medium">Error: {supabaseStatus.error}</p>
-                          )}
-                        </div>
-                      )}
-                      
-                      {supabaseStatus.configured && (
-                        <p>Todas las funcionalidades están disponibles: gestión de imágenes, contenido dinámico y más.</p>
-                      )}
-                    </div>
-                    
-                    <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-blue-800">
-                      <p className="font-medium mb-2">📝 Guía de uso</p>
-                      <p>Lee la <code className="bg-blue-100 px-1 rounded">ADMIN_GUIDE.md</code> para aprender a usar todas las funcionalidades</p>
-                    </div>
-                  </div>
+            /* Admin Interface with Tabs */
+            <div className="h-[calc(90vh-80px)] flex">
+              {/* Sidebar Navigation */}
+              <div className="w-64 border-r bg-muted/30">
+                <div className="p-4">
+                  <h4 className="font-medium mb-4 text-sm text-muted-foreground">PANEL DE CONTROL</h4>
+                  <nav className="space-y-2">
+                    <button
+                      onClick={() => setActiveTab('biografia')}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-3 transition-colors ${
+                        activeTab === 'biografia' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                      }`}
+                    >
+                      <User className="w-4 h-4" />
+                      Editor de Biografía
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('imagenes')}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-3 transition-colors ${
+                        activeTab === 'imagenes' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                      }`}
+                    >
+                      <ImageIcon className="w-4 h-4" />
+                      Gestión de Imágenes
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('redes')}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-3 transition-colors ${
+                        activeTab === 'redes' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                      }`}
+                    >
+                      <Link2 className="w-4 h-4" />
+                      Redes Sociales
+                    </button>
+                  </nav>
                 </div>
                 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 max-w-4xl mx-auto">
-                  <Card className="hover:shadow-lg transition-shadow">
-                    <CardContent className="p-6 text-center">
-                      <User className="w-12 h-12 mx-auto mb-4 text-primary" />
-                      <h4 className="font-medium mb-2">Editor de Biografía</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Editor de texto enriquecido con formato visual y vista previa
-                      </p>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card className="hover:shadow-lg transition-shadow">
-                    <CardContent className="p-6 text-center">
-                      <ImageIcon className="w-12 h-12 mx-auto mb-4 text-primary" />
-                      <h4 className="font-medium mb-2">Gestión de Imágenes</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Drag & drop, categorías automáticas, eliminar/descargar
-                      </p>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card className="hover:shadow-lg transition-shadow">
-                    <CardContent className="p-6 text-center">
-                      <Link2 className="w-12 h-12 mx-auto mb-4 text-primary" />
-                      <h4 className="font-medium mb-2">Redes Sociales</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Agregar/eliminar redes, validación automática de URLs
-                      </p>
-                    </CardContent>
-                  </Card>
+                {/* Status Information */}
+                <div className="p-4 border-t">
+                  <div className={`p-3 rounded-lg text-xs ${
+                    supabaseStatus.configured
+                      ? 'bg-green-50 border border-green-200 text-green-800'
+                      : 'bg-yellow-50 border border-yellow-200 text-yellow-800'
+                  }`}>
+                    <div className="flex items-center gap-2 mb-1">
+                      {supabaseStatus.configured ? (
+                        <CheckCircle className="w-3 h-3 text-green-600" />
+                      ) : (
+                        <AlertCircle className="w-3 h-3 text-yellow-600" />
+                      )}
+                      <span className="font-medium">
+                        {supabaseStatus.configured ? 'Sistema Online' : 'Configuración Pendiente'}
+                      </span>
+                    </div>
+                    {!supabaseStatus.configured && (
+                      <p>Revisa SUPABASE_SETUP.md</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Main Content Area */}
+              <div className="flex-1 overflow-y-auto">
+                <div className="p-6">
+                  {activeTab === 'biografia' && (
+                    <div>
+                      <h3 className="text-xl font-semibold mb-4">Editor de Biografía</h3>
+                      <div className="space-y-4">
+                        <Card>
+                          <CardContent className="p-6">
+                            <p className="text-muted-foreground mb-4">
+                              Edita la información principal de CROIX que aparece en el presskit.
+                            </p>
+                            <div className="space-y-4">
+                              <div>
+                                <Label>Título Principal</Label>
+                                <Input defaultValue="CROIX" className="mt-1" />
+                              </div>
+                              <div>
+                                <Label>Subtítulo</Label>
+                                <Input defaultValue="DJ y Productor Chileno" className="mt-1" />
+                              </div>
+                              <div>
+                                <Label>Biografía</Label>
+                                <div className="mt-1 p-4 border rounded-lg min-h-[200px] bg-muted/30">
+                                  <p className="text-sm text-muted-foreground">
+                                    Editor de texto enriquecido disponible una vez configurado Supabase...
+                                  </p>
+                                </div>
+                              </div>
+                              <Button disabled={!supabaseStatus.configured}>
+                                💾 Guardar Cambios
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === 'imagenes' && (
+                    <div>
+                      <h3 className="text-xl font-semibold mb-4">Gestión de Imágenes</h3>
+                      <div className="space-y-4">
+                        <Card>
+                          <CardContent className="p-6">
+                            <p className="text-muted-foreground mb-4">
+                              Sube y organiza las imágenes del presskit por categorías.
+                            </p>
+                            <div className="border-2 border-dashed border-muted rounded-lg p-12 text-center">
+                              <ImageIcon className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                              <p className="text-muted-foreground">
+                                {supabaseStatus.configured 
+                                  ? "Arrastra y suelta imágenes aquí, o haz clic para seleccionar"
+                                  : "Configuración de Supabase requerida para subir imágenes"
+                                }
+                              </p>
+                              <Button disabled={!supabaseStatus.configured} className="mt-4">
+                                📁 Seleccionar Imágenes
+                              </Button>
+                            </div>
+                            
+                            <div className="mt-6">
+                              <Label className="text-sm font-medium">Categorías disponibles:</Label>
+                              <div className="flex gap-2 mt-2">
+                                {['DJ', 'Studio', 'Press', 'Colabs', 'Releases'].map(cat => (
+                                  <span key={cat} className="px-2 py-1 bg-primary/10 text-primary rounded text-xs">
+                                    {cat}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === 'redes' && (
+                    <div>
+                      <h3 className="text-xl font-semibold mb-4">Redes Sociales</h3>
+                      <div className="space-y-4">
+                        <Card>
+                          <CardContent className="p-6">
+                            <p className="text-muted-foreground mb-4">
+                              Gestiona los enlaces a redes sociales que aparecen en el presskit.
+                            </p>
+                            <div className="space-y-4">
+                              <div>
+                                <Label>Instagram</Label>
+                                <Input 
+                                  defaultValue="https://www.instagram.com/croix__/" 
+                                  placeholder="https://instagram.com/usuario"
+                                  className="mt-1" 
+                                />
+                              </div>
+                              <div>
+                                <Label>Spotify</Label>
+                                <Input 
+                                  defaultValue="https://open.spotify.com/intl-es/artist/7H3B36EQXldij3pvfgeDQk"
+                                  placeholder="https://open.spotify.com/artist/..."
+                                  className="mt-1" 
+                                />
+                              </div>
+                              <div>
+                                <Label>SoundCloud</Label>
+                                <Input 
+                                  placeholder="https://soundcloud.com/usuario"
+                                  className="mt-1" 
+                                />
+                              </div>
+                              <div>
+                                <Label>YouTube</Label>
+                                <Input 
+                                  placeholder="https://youtube.com/@usuario"
+                                  className="mt-1" 
+                                />
+                              </div>
+                              <Button disabled={!supabaseStatus.configured}>
+                                💾 Guardar Enlaces
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
