@@ -1,109 +1,110 @@
-# Presskit Pro - Portfolio/Presskit Website
+# 🎛️ CROIX PRESSKIT - Electronic Press Kit
 
-Un sitio web moderno y editable para artistas y DJs, construido con React, TypeScript, Vite y Tailwind CSS.
+Un presskit profesional y completamente editable para CROIX - DJ y Productor de techno underground chileno.
 
 ## ✨ Características
 
-- **Panel de Administración**: Edita contenido sin conocimientos técnicos
-- **Responsive Design**: Se adapta a todos los dispositivos
-- **Galería de Fotos**: Con imágenes destacadas
-- **Videos de YouTube**: Integración directa con YouTube
-- **Sección Bio**: Biografía completa editable
-- **Enlaces Sociales**: Administra todas tus redes sociales
-- **Local Storage**: El contenido se guarda en el navegador
+- **🔐 Panel de Administración Completo**: Edita todo sin código
+- **📸 Gestión de Imágenes**: Drag & drop con categorías automáticas  
+- **📝 Editor de Texto Enriquecido**: Biografía con formato visual
+- **🔗 Redes Sociales Dinámicas**: Agrega/elimina redes fácilmente
+- **🎨 Tema Underground**: Colores neón y estética de club
+- **📱 Responsive**: Perfecto en todos los dispositivos
+- **💾 Supabase Backend**: Storage profesional y base de datos
 
-## 🚀 Comenzar
+## 🚀 Tecnologías
 
-### Prerrequisitos
+- **React 18** + **TypeScript**
+- **Vite** - Build ultra rápido
+- **Tailwind CSS** - Styling moderno  
+- **Supabase** - Backend como servicio
+- **Radix UI** - Componentes accesibles
+- **React Dropzone** - Upload de archivos
 
-- Node.js 18 o superior
-- npm o yarn
+## 🎯 Para CROIX
 
-### Instalación
+Este presskit está específicamente diseñado para mostrar:
+
+- **Discografía**: Hot Rhythms EP, Calentando EP, Sustancia EP, Worker
+- **Colaboraciones**: TeeHC, Jarod Beyzaga, Malisan, Remix Laddie
+- **Sellos**: SpaceRecords, Gruvalismo, KRAFT.rec, One:Thirty, Oetraxxrecords
+- **Estilo Underground**: Techno irreverente y energía de club
+
+## 🔧 Instalación
 
 ```bash
-# Clonar el repositorio
-git clone <tu-repo-url>
-
-# Navegar al directorio
-cd presskit-pro-remix
+# Clonar repositorio
+git clone https://github.com/SPCMSK/CROIXPRESSKIT.git
+cd CROIXPRESSKIT
 
 # Instalar dependencias
 npm install
 
-# Ejecutar en desarrollo
+# Configurar Supabase (ver SUPABASE_SETUP.md)
+cp .env.local.example .env.local
+# Editar .env.local con tus credenciales de Supabase
+
+# Iniciar desarrollo
 npm run dev
 ```
 
-### Scripts Disponibles
+## 🎮 Panel de Administración
 
-```bash
-npm run dev          # Servidor de desarrollo
-npm run build        # Build para producción
-npm run preview      # Preview del build
-npm run lint         # Linter
-```
+### Acceso
+1. Haz clic en ⚙️ en la navegación
+2. **Email**: admin@croix.com
+3. **Password**: croix2024
 
-## 🔧 Administración
+### Funciones Disponibles
+- **✍️ Editar Biografía**: Párrafos con formato visual
+- **📷 Gestionar Fotos**: Categorías DJ, Estudio, Prensa, Colaboraciones
+- **🔗 Redes Sociales**: Instagram, Spotify, SoundCloud, Beatport
+- **🎨 Personalización**: Colores y temas (próximamente)
 
-### Acceso al Panel de Admin
+## 📋 Configuración
 
-1. Haz clic en el botón "Admin" en el footer
-2. Credenciales por defecto:
-   - **Email**: admin@spcmsk.com
-   - **Password**: spcmsk2024
+### Supabase (Requerido)
+1. Lee `SUPABASE_SETUP.md` para instrucciones completas
+2. Crea proyecto en [supabase.com](https://supabase.com)
+3. Ejecuta las queries SQL proporcionadas
+4. Configura variables de entorno
 
-### Cambiar Credenciales
-
-Para cambiar las credenciales, edita el archivo `src/components/AdminPanel.tsx` en la línea donde está la validación:
-
-```tsx
-if (loginData.email === "admin@spcmsk.com" && loginData.password === "spcmsk2024") {
+### Variables de Entorno
+```env
+VITE_SUPABASE_URL=tu-url-supabase
+VITE_SUPABASE_ANON_KEY=tu-anon-key
+VITE_ADMIN_EMAIL=admin@croix.com
+VITE_ADMIN_PASSWORD=croix2024
 ```
 
 ## 🚀 Deploy
 
-El proyecto está configurado para deployment automático en:
-
-- **Netlify**: Usa `netlify.toml`
-- **Vercel**: Usa `vercel.json`
-
-### Deploy en Netlify
-
-1. Conecta tu repositorio de GitHub a Netlify
-2. Build command: `npm run build`
-3. Publish directory: `dist`
-4. Deploy automáticamente
-
-### Deploy en Vercel
-
-1. Conecta tu repositorio de GitHub a Vercel
-2. Deploy automáticamente
-
-### Deploy Manual
-
+### Vercel (Recomendado)
 ```bash
-# Build del proyecto
 npm run build
-
-# La carpeta 'dist' contiene los archivos para subir
+vercel --prod
 ```
 
-## 🛠️ Tecnologías
+### Netlify 
+```bash
+npm run build
+netlify deploy --prod --dir=dist
+```
 
-- **React 18** - Librería UI
-- **TypeScript** - Tipado estático
-- **Vite** - Build tool
-- **Tailwind CSS** - Framework CSS
-- **Radix UI** - Componentes accesibles
-- **Lucide React** - Iconos
-- **React Router** - Navegación
+## 📚 Documentación
 
-## 📱 Compatibilidad
+- `ADMIN_GUIDE.md` - Guía completa del panel admin
+- `SUPABASE_SETUP.md` - Configuración paso a paso de Supabase
+- `PDF_PRESSKIT.md` - Generación de PDF del presskit
 
-- ✅ Chrome/Edge/Firefox/Safari modernos
-- ✅ iOS Safari
-- ✅ Android Chrome
-- ✅ Responsivo en todos los dispositivos
+## 🎛️ CROIX
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+**Underground Techno • Oetraxxrecords**
+
+- 📧 **Booking**: tucroixdj@gmail.com
+- 📷 **Instagram**: [@croix__](https://instagram.com/croix__)
+- 🎵 **Spotify**: [CROIX](https://open.spotify.com/artist/7H3B36EQXldij3pvfgeDQk)
+
+---
+
+**Energía inagotable • Sampling audaz • Pura cultura de club** 🔊
