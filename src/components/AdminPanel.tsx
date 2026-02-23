@@ -40,6 +40,13 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
         const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
         const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
         
+        console.log('🔍 Verificando variables:', {
+          hasUrl: !!supabaseUrl,
+          hasKey: !!supabaseKey,
+          url: supabaseUrl?.substring(0, 30) + '...', 
+          keyLength: supabaseKey?.length
+        })
+        
         if (!supabaseUrl || !supabaseKey || 
             supabaseUrl === 'your_supabase_url_here' || 
             supabaseKey === 'your_supabase_anon_key_here') {
@@ -51,25 +58,20 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
           return
         }
         
-        // Verificar conexión básica
-        const testUrl = `${supabaseUrl}/rest/v1/`
-        const response = await fetch(testUrl, {
-          headers: {
-            'apikey': supabaseKey,
-            'Authorization': `Bearer ${supabaseKey}`
-          }
-        })
-        
-        if (response.ok) {
+        // Verificación simplificada sin fetch
+        if (supabaseUrl.includes('supabase.co') && supabaseKey.length > 50) {
+          console.log('✅ Variables de Supabase válidas')
           setSupabaseStatus({ configured: true, loading: false })
         } else {
           setSupabaseStatus({ 
             configured: false, 
             loading: false,
-            error: 'Error de conexión con Supabase'
+            error: 'Formato de variables inválido'
           })
         }
+        
       } catch (error) {
+        console.error('❌ Error al verificar Supabase:', error)
         setSupabaseStatus({ 
           configured: false, 
           loading: false,
