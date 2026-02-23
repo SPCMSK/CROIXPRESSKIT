@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { 
   LogOut, 
   Image as ImageIcon, 
   Link2, 
   User,
   X,
-  Shield
+  Shield,
+  CheckCircle,
+  AlertCircle
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -21,8 +23,65 @@ interface AdminPanelProps {
 const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
   const [loginData, setLoginData] = useState({ email: '', password: '' })
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [supabaseStatus, setSupabaseStatus] = useState<{
+    configured: boolean
+    loading: boolean
+    error?: string
+  }>({ configured: false, loading: true })
   
   const { toast } = useToast()
+
+  // Verificar configuración de Supabase
+  useEffect(() => {
+    const checkSupabaseConfig = async () => {
+      setSupabaseStatus({ configured: false, loading: true })
+      
+      try {
+        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+        const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+        
+        if (!supabaseUrl || !supabaseKey || 
+            supabaseUrl === 'your_supabase_url_here' || 
+            supabaseKey === 'your_supabase_anon_key_here') {
+          setSupabaseStatus({ 
+            configured: false, 
+            loading: false,
+            error: 'Variables de entorno no configuradas'
+          })
+          return
+        }
+        
+        // Verificar conexión básica
+        const testUrl = `${supabaseUrl}/rest/v1/`
+        const response = await fetch(testUrl, {
+          headers: {
+            'apikey': supabaseKey,
+            'Authorization': `Bearer ${supabaseKey}`
+          }
+        })
+        
+        if (response.ok) {
+          setSupabaseStatus({ configured: true, loading: false })
+        } else {
+          setSupabaseStatus({ 
+            configured: false, 
+            loading: false,
+            error: 'Error de conexión con Supabase'
+          })
+        }
+      } catch (error) {
+        setSupabaseStatus({ 
+          configured: false, 
+          loading: false,
+          error: 'Error al verificar configuración'
+        })
+      }
+    }
+    
+    if (isOpen) {
+      checkSupabaseConfig()
+    }
+  }, [isOpen])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -135,16 +194,52 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
                   <p className="text-muted-foreground mb-4">
                     ¡Bienvenido al panel de administración de CROIX!
                   </p>
+                  
                   <div className="space-y-3 text-sm text-muted-foreground max-w-2xl mx-auto">
-                    <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800">
-                      <p className="font-medium mb-2">🔧 Configuración de Supabase requerida</p>
-                      <p>Para usar todas las funcionalidades del panel:</p>
-                      <ol className="list-decimal list-inside mt-2 space-y-1">
-                        <li>Revisa el archivo <code className="bg-yellow-100 px-1 rounded">SUPABASE_SETUP.md</code></li>
-                        <li>Crea un proyecto en Supabase</li>
-                        <li>Ejecuta las consultas SQL proporcionadas</li>
-                        <li>Configura las variables de entorno</li>
-                      </ol>
+                    {/* Estado de Supabase */}
+                    <div className={`p-4 border rounded-lg ${
+                      supabaseStatus.loading 
+                        ? 'bg-blue-50 border-blue-200 text-blue-800' 
+                        : supabaseStatus.configured
+                          ? 'bg-green-50 border-green-200 text-green-800'
+                          : 'bg-yellow-50 border-yellow-200 text-yellow-800'
+                    }`}>
+                      <div className="flex items-center justify-center gap-2 mb-2">
+                        {supabaseStatus.loading ? (
+                          <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+                        ) : supabaseStatus.configured ? (
+                          <CheckCircle className="w-5 h-5 text-green-600" />
+                        ) : (
+                          <AlertCircle className="w-5 h-5 text-yellow-600" />
+                        )}
+                        <p className="font-medium">
+                          {supabaseStatus.loading 
+                            ? 'Verificando configuración...'
+                            : supabaseStatus.configured
+                              ? '✅ Supabase configurado correctamente'
+                              : '🔧 Configuración de Supabase requerida'
+                          }
+                        </p>
+                      </div>
+                      
+                      {!supabaseStatus.loading && !supabaseStatus.configured && (
+                        <div>
+                          <p>Para usar todas las funcionalidades del panel:</p>
+                          <ol className="list-decimal list-inside mt-2 space-y-1">
+                            <li>Revisa el archivo <code className="bg-yellow-100 px-1 rounded">SUPABASE_SETUP.md</code></li>
+                            <li>Crea un proyecto en Supabase</li>
+                            <li>Ejecuta las consultas SQL proporcionadas</li>
+                            <li>Actualiza las variables de entorno en .env.local</li>
+                          </ol>
+                          {supabaseStatus.error && (
+                            <p className="text-red-600 mt-2 font-medium">Error: {supabaseStatus.error}</p>
+                          )}
+                        </div>
+                      )}
+                      
+                      {supabaseStatus.configured && (
+                        <p>Todas las funcionalidades están disponibles: gestión de imágenes, contenido dinámico y más.</p>
+                      )}
                     </div>
                     
                     <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-blue-800">
