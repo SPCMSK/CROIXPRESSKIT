@@ -48,3 +48,5 @@ Después de configurar en Vercel:
 4. Deberías ver "✅ Supabase configurado correctamente"
 
 ¡Tu presskit funcionará completamente tanto en local como en producción! 🚀
+
+> **Nota**: Después de agregar las variables, es necesario hacer un redeploy para que tomen efecto.
