@@ -40,47 +40,49 @@ interface ContentContextType {
 
 const defaultContent: ContentData = {
   heroData: {
-    title: "SPC MSK",
+    title: "CROIX",
     subtitle: "Electronic Press Kit",
     description1: "DJ y Productor Chileno",
-    description2: "Viña del Mar, Chile",
-    backgroundImage: "/lovable-uploads/932b3b5e-41ab-4e3c-90fe-29421471b824.png"
+    description2: "Underground Techno • Oetraxxrecords",
+    backgroundImage: "/PRESKIT MATERIAL/fotos croix/DJ/1.jpeg"
   },
   bioData: {
-    title: "Acerca de SPC MSK",
-    image: "/lovable-uploads/c09e4e77-c640-4983-9eb7-f3325b42c1e0.png",
-    paragraph1: "SPC MSK es un DJ y productor chileno de 24 años, oriundo de Viña del Mar, cuya identidad sonora se mueve con maestría entre la energía y la hipnosis.",
-    paragraph2: "Su propuesta musical es versátil y potente, fusionando hardgroove percusivo con techno rápido y groovero. Su pasión nació a los 13 años, influenciado por gigantes del EDM como Skrillex, Kill The Noise, Flosstradamus y Zomboy.",
-    paragraph3: "A los 16, se sumergió de lleno en el techno, el género que definiría su carrera. Esta trayectoria se complementa con una sólida base musical adquirida en su etapa escolar, donde aprendió a tocar guitarra, bajo y batería, elementos que enriquecen su visión como productor.",
-    paragraph4: "Su carrera ha tenido un ascenso notable, marcando presencia en los line-ups de destacados clubes y escenarios como Radikals, Mimas Club, Chaisenroom, Woo Club, The House, Club La Sala, Espacio 93 Valpo y el Festival Feztival."
+    title: "Acerca de CROIX",
+    image: "/PRESKIT MATERIAL/fotos croix/DJ/2.jpeg",
+    paragraph1: "**Croix** es un DJ y productor chileno que se ha convertido en una figura esencial del **techno underground e irreverente**. Fundador del sello **Oetraxxrecords**, su sonido se define por una **energía inagotable** y un uso audaz del sampling diseñado para el clímax de la pista.",
+    paragraph2: "Su prolífica carrera en el estudio cuenta con lanzamientos en sellos internacionales y nacionales de renombre, destacando trabajos como el **Hot Rhythms EP** en **SpaceRecords**, **Calentando EP** en **Gruvalismo**, **Sustancia EP** en **KRAFT.rec**, y su track **Worker** bajo el sello **[One:Thirty]**.",
+    paragraph3: "Más allá de sus lanzamientos en solitario, Croix ha dejado su marca en importantes compilados de varios artistas (VA), incluyendo **NASTY TRAX VOL.6** (con su track Acid Work), **ONE THIRTY Vol. 2**, **PHANTASOS 03** de **Oneiros Records**, e inicios potentes en los primeros volúmenes de **IMPCORE Records** y **KEEPISTFAST**.",
+    paragraph4: "Su faceta colaborativa es igualmente sólida, destacando su trabajo constante con **TeeHC** en su propio sello, colaboraciones con **Jarod Beyzaga**, el lanzamiento **CCXXXIX** en **Obscur** junto a **Malisan**, y su reciente **Remix para el dúo francés Laddie** lanzado por **Lapsorecords**. Con una discografía en constante expansión, Croix garantiza una experiencia sónica cruda, técnica y de pura cultura de club."
   },
   galleryPhotos: [
-    { src: "/lovable-uploads/3d9b2b10-f6ae-4042-9481-72736477a753.png", alt: "SPC MSK Portrait 1", featured: true },
-    { src: "/lovable-uploads/c09e4e77-c640-4983-9eb7-f3325b42c1e0.png", alt: "SPC MSK Portrait 2", featured: true },
-    { src: "/lovable-uploads/902318a4-6539-47db-8038-8cd1d4329fcc.png", alt: "SPC MSK Portrait 3", featured: false },
-    { src: "/lovable-uploads/5b6ee93e-1ce7-4c83-98ef-8a7a21f5935f.png", alt: "SPC MSK Portrait 4", featured: false },
-    { src: "/lovable-uploads/d8ef8f2f-1a76-4183-a980-cdd21ce3e45e.png", alt: "SPC MSK Portrait 5", featured: false }
+    { src: "/PRESKIT MATERIAL/fotos croix/DJ/1.jpeg", alt: "CROIX DJ Set 1", featured: true },
+    { src: "/PRESKIT MATERIAL/fotos croix/DJ/2.jpeg", alt: "CROIX DJ Set 2", featured: true },
+    { src: "/PRESKIT MATERIAL/fotos croix/DJ/3.jpeg", alt: "CROIX DJ Set 3", featured: false },
+    { src: "/PRESKIT MATERIAL/fotos croix/DJ/4.jpeg", alt: "CROIX DJ Set 4", featured: false },
+    { src: "/PRESKIT MATERIAL/fotos croix/estudio/Fotos Croix _1.JPG", alt: "CROIX Estudio Portrait", featured: true },
+    { src: "/PRESKIT MATERIAL/fotos croix/estudio/Fotos Croix _2.JPG", alt: "CROIX Estudio Session", featured: false },
+    { src: "/PRESKIT MATERIAL/fotos croix/estudio/Fotos Croix _10.JPG", alt: "CROIX Studio Work", featured: false },
+    { src: "/PRESKIT MATERIAL/fotos croix/estudio/Fotos Croix _18.JPG", alt: "CROIX Production", featured: false }
   ],
   socialLinks: [
-    { platform: "Instagram", url: "https://www.instagram.com/spc.musik/" },
-    { platform: "Spotify", url: "https://open.spotify.com/intl-es/artist/1N2pttRVzPS9LAxHwzVfTP?si=clREonUvTqOz00ippw6ANg" },
-    { platform: "SoundCloud", url: "https://soundcloud.com/020301" },
-    { platform: "YouTube", url: "https://www.youtube.com/@SPCMSK2" },
-    { platform: "Bandcamp", url: "https://spcmsk2.bandcamp.com" },
-    { platform: "Beatport", url: "https://www.beatport.com/es/artist/spcmsk/1247790" }
+    { platform: "Instagram", url: "https://www.instagram.com/croix__/" },
+    { platform: "Spotify", url: "https://open.spotify.com/intl-es/artist/7H3B36EQXldij3pvfgeDQk?si=35otPVu3Tcu5DLp7fc0BzQ" },
+    { platform: "SoundCloud", url: "https://soundcloud.com/c-roix" },
+    { platform: "Beatport", url: "https://www.beatport.com/es/artist/croix/513368" },
+    { platform: "Email", url: "mailto:tucroixdj@gmail.com" }
   ],
   videos: [
     {
-      id: "rQebU3T_oqU",
-      title: "SPC MSK - Live Set 1",
-      embedUrl: "https://www.youtube.com/embed/rQebU3T_oqU?si=86h3eswFHqhLiDDF",
-      description: "Presentación en vivo • YouTube"
+      id: "hot-rhythms-ep",
+      title: "CROIX - Hot Rhythms EP",
+      embedUrl: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1736687936&color=%23ff00ff&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true",
+      description: "Hot Rhythms EP • SpaceRecords"
     },
     {
-      id: "ugXKAKb_LmY", 
-      title: "SPC MSK - Live Set 2",
-      embedUrl: "https://www.youtube.com/embed/ugXKAKb_LmY?si=Ur_bz0eKRFnEqfD0",
-      description: "Presentación en vivo • YouTube"
+      id: "calentando-ep", 
+      title: "CROIX - Calentando EP",
+      embedUrl: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1698160352&color=%23ff00ff&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true",
+      description: "Calentando EP • Gruvalismo"
     }
   ]
 };

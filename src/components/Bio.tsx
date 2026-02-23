@@ -39,7 +39,7 @@ const Bio = () => {
             <div className="relative rounded-2xl overflow-hidden shadow-card">
               <img 
                 src={content.bioData.image}
-                alt="SPC MSK Portrait"
+                alt="CROIX Portrait"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent"></div>
@@ -51,20 +51,20 @@ const Bio = () => {
         <div className="mt-16 pt-16 border-t border-border">
           <div className="space-y-8">
             <h3 className="font-display font-bold text-2xl md:text-3xl text-foreground">
-              Colaboraciones & Reconocimientos
+              Escena & Colaboraciones
             </h3>
             
             <div className="space-y-4 text-text-secondary">
               <p>
-                En estas instancias, ha compartido cabina con una impresionante lista de artistas de renombre como <strong className="text-brand-teal">Alarico, Grace Dahl, Zisko, Sunnyk, Jxxxo, Nplnsss y Andrea Riffo</strong>, además de colaborar activamente con colectivos como <strong className="text-brand-teal">La Oficina, Grooverom y Blackroom</strong>.
+                Su presencia en la escena underground se extiende por festivales y eventos en el **norte de Chile** durante años nuevos, participando en **Nebula** y diversos eventos en la zona norte, mientras que en Santiago ha marcado territorio en **Matrix** y otros espacios emblemáticos de la cultura de club.
               </p>
               
               <p>
-                Su faceta como productor se refleja en lanzamientos a través de sellos como <strong className="text-brand-teal">Inherente Project, DKN Selections, DZB Records, Marlow Records, Logia Sound Collective, Space Records e Impcore Records</strong>.
+                Su catálogo discográfico abarca colaboraciones con sellos de renombre como <strong className="text-brand-teal">SpaceRecords, Gruvalismo, KRAFT.rec, One:Thirty, Oneiros Records, IMPCORE Records, KEEPISTFAST, Obscur y Lapsorecords</strong>, consolidando su presencia tanto nacional como internacional.
               </p>
               
               <p>
-                Su música ha recibido el soporte de artistas como <strong className="text-brand-teal">Perrokilltro, Katalina Schawrz y Pejora</strong>, validando su impacto en la escena. Comprometido con el crecimiento de su comunidad, SPC MSK es también el fundador de su propio sello y productora de eventos, <strong className="text-brand-teal">IMP Core</strong>, una plataforma para su música y para el impulso de nuevos talentos.
+                Como **fundador de Oetraxxrecords**, Croix no solo impulsa su propia música sino que también se dedica a promover nuevos talentos del underground, manteniendo vivo el espíritu irreverente y la energía cruda que define la auténtica cultura de club.
               </p>
             </div>
           </div>

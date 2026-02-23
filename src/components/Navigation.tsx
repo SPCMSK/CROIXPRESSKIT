@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
+import { Settings } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-const Navigation = () => {
+interface NavigationProps {
+  onOpenAdmin: () => void;
+}
+
+const Navigation = ({ onOpenAdmin }: NavigationProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
 
@@ -56,8 +62,7 @@ const Navigation = () => {
             className="font-display font-bold text-xl cursor-pointer"
             onClick={() => scrollToSection("hero")}
           >
-            <span className="text-brand-teal">SPC</span>
-            <span className="text-foreground">MSK</span>
+            <span className="text-brand-teal">CROIX</span>
           </div>
 
           {/* Navigation Links */}
@@ -75,6 +80,16 @@ const Navigation = () => {
                 {item.label}
               </button>
             ))}
+            
+            {/* Admin Button - Discreto */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onOpenAdmin}
+              className="opacity-50 hover:opacity-100 transition-opacity"
+            >
+              <Settings className="w-4 h-4" />
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}

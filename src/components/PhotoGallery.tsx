@@ -77,7 +77,7 @@ const PhotoGallery = () => {
 
         <div className="text-center mt-12">
           <p className="text-text-muted text-sm">
-            Haz clic en cualquier imagen para descargar la versión en alta resolución • Todas las fotos por SPC MSK Press Team
+            Haz clic en cualquier imagen para descargar la versión en alta resolución • Todas las fotos por CROIX Press Team
           </p>
         </div>
       </div>

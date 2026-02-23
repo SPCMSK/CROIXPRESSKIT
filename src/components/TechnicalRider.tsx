@@ -7,61 +7,25 @@ const TechnicalRider = () => {
     {
       category: "CDJ Units",
       items: [
-        "2/3 Pioneer CDJ 3000",
-        "2000 NX2/XDJ 1000MK2"
+        "Mínimo 2 Pioneer CDJ-1000MK2",
+        "Compatible con CDJ-3000/2000NX2/XDJ-1000"
       ]
     },
     {
       category: "Mixer",
       items: [
-        "Pioneer DJM 450/750MK2/900NX2/V9/V10",
-        "Mixer Xone 96/92"
+        "Pioneer DJM-750 (mínimo)",
+        "Compatible: DJM-900NX2/V10/A9",
+        "Xone 92/96",
+        "RMX Pioneer (opcional)"
       ]
     },
     {
       category: "Monitoring",
       items: [
-        "Sistema de Monitoreo"
+        "Sistema de Monitoreo de cabina",
+        "Headphones output dedicado"
       ]
-    }
-  ];
-
-  const socialLinks = [
-    {
-      platform: "Instagram",
-      icon: "Instagram",
-      color: "bg-pink-500 hover:bg-pink-600",
-      url: "https://www.instagram.com/spc.musik/"
-    },
-    {
-      platform: "Spotify", 
-      icon: "Spotify",
-      color: "bg-green-500 hover:bg-green-600",
-      url: "https://open.spotify.com/intl-es/artist/1N2pttRVzPS9LAxHwzVfTP?si=clREonUvTqOz00ippw6ANg"
-    },
-    {
-      platform: "SoundCloud",
-      icon: "SoundCloud",
-      color: "bg-orange-500 hover:bg-orange-600",
-      url: "https://soundcloud.com/020301"
-    },
-    {
-      platform: "YouTube",
-      icon: "Youtube",
-      color: "bg-red-500 hover:bg-red-600",
-      url: "https://www.youtube.com/@SPCMSK2"
-    },
-    {
-      platform: "Disc",
-      icon: "Disc",
-      color: "bg-blue-500 hover:bg-blue-600",
-      url: "https://spcmsk2.bandcamp.com"
-    },
-    {
-      platform: "Beatport",
-      icon: "Music",
-      color: "bg-purple-500 hover:bg-purple-600",
-      url: "https://www.beatport.com/es/artist/spcmsk/1247790"
     }
   ];
 
@@ -138,10 +102,10 @@ const TechnicalRider = () => {
                       <span className="text-brand-teal">📧</span>
                     </div>
                     <a 
-                      href="mailto:spcmsk.booking@gmail.com"
+                      href="mailto:tucroixdj@gmail.com"
                       className="text-foreground hover:text-brand-teal transition-colors font-medium"
                     >
-                      spcmsk.booking@gmail.com
+                      tucroixdj@gmail.com
                     </a>
                   </div>
                 </div>
@@ -162,12 +126,12 @@ const TechnicalRider = () => {
               {/* Stats */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-card rounded-xl border border-border text-center">
-                  <div className="text-2xl font-display font-bold text-brand-teal">24</div>
-                  <div className="text-text-muted text-sm">Años</div>
+                  <div className="text-2xl font-display font-bold text-brand-teal">🎛️</div>
+                  <div className="text-text-muted text-sm">Underground</div>
                 </div>
                 <div className="p-4 bg-card rounded-xl border border-border text-center">
-                  <div className="text-2xl font-display font-bold text-brand-teal">3</div>
-                  <div className="text-text-muted text-sm">Años de exp</div>
+                  <div className="text-2xl font-display font-bold text-brand-teal">🔊</div>
+                  <div className="text-text-muted text-sm">Techno</div>
                 </div>
               </div>
             </div>
@@ -175,14 +139,14 @@ const TechnicalRider = () => {
             {/* Performance Image */}
             <div className="relative rounded-xl overflow-hidden shadow-card">
               <img 
-                src="/lovable-uploads/f5438ed9-1e42-4fd5-97f4-e358d04980c0.png"
-                alt="SPC MSK Performance"
+                src="/PRESKIT MATERIAL/fotos croix/DJ/3.jpeg"
+                alt="CROIX Performance"
                 className="w-full h-64 object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
               <div className="absolute bottom-4 left-4">
                 <span className="bg-brand-teal text-brand-darker px-3 py-1 rounded-full text-sm font-medium">
-                  Presentación en Vivo
+                  Underground Vibes
                 </span>
               </div>
             </div>

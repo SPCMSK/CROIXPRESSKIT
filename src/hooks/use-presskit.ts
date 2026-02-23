@@ -84,7 +84,7 @@ ${data.socialMedia.map(social =>
 ).join('\n')}
 
 CONTACT
-For booking inquiries: spcmsk.booking@gmail.com
+For booking inquiries: tucroixdj@gmail.com
 Website: ${data.websiteUrl}
 
 Generated: ${new Date(data.generatedAt).toLocaleString()}

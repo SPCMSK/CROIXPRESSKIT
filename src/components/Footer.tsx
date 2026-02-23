@@ -16,13 +16,12 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-4">
             <div className="font-display font-bold text-2xl">
-              <span className="text-brand-teal">SPC</span>
-              <span className="text-foreground">MSK</span>
+              <span className="text-brand-teal">CROIX</span>
             </div>
             <p className="text-text-muted">
               DJ y Productor Chileno
               <br />
-              Artista de Música Electrónica
+              Underground Techno • Oetraxxrecords
             </p>
           </div>
 
@@ -32,10 +31,10 @@ const Footer = () => {
             <div className="space-y-2 text-text-secondary">
               <p>Reservas y Management</p>
               <a 
-                href="mailto:spcmsk.booking@gmail.com"
+                href="mailto:tucroixdj@gmail.com"
                 className="text-brand-teal hover:text-brand-teal-dark transition-colors"
               >
-                spcmsk.booking@gmail.com
+                tucroixdj@gmail.com
               </a>
             </div>
             <div className="mt-4">
@@ -52,7 +51,7 @@ const Footer = () => {
             <h3 className="font-display font-semibold text-foreground">Press Kit</h3>
             <div className="space-y-2 text-text-secondary text-sm">
               <p>Todos los materiales de prensa disponibles para uso editorial</p>
-              <p>© 2024 SPC MSK. Todos los derechos reservados.</p>
+              <p>© 2024 CROIX. Todos los derechos reservados.</p>
             </div>
           </div>
         </div>

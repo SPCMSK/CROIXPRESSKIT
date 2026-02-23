@@ -1,415 +1,197 @@
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { X, Upload, Save, LogOut, Eye, EyeOff, Trash2, Plus } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { useContent } from "@/contexts/ContentContext";
+import React, { useState } from 'react'
+import { 
+  LogOut, 
+  Image as ImageIcon, 
+  Link2, 
+  User,
+  X,
+  Shield
+} from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { useToast } from '@/hooks/use-toast'
 
 interface AdminPanelProps {
-  isOpen: boolean;
-  onClose: () => void;
+  isOpen: boolean
+  onClose: () => void
 }
 
-const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [showPassword, setShowPassword] = useState(false);
-  const { toast } = useToast();
-  const { content, updateContent } = useContent();
+const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
+  const [loginData, setLoginData] = useState({ email: '', password: '' })
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  
+  const { toast } = useToast()
 
-  // Local state for editing
-  const [heroData, setHeroData] = useState(content.heroData);
-  const [bioData, setBioData] = useState(content.bioData);
-  const [socialLinks, setSocialLinks] = useState(content.socialLinks);
-  const [videos, setVideos] = useState(content.videos);
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simple authentication - in real app, use proper auth
-    if (loginData.email === "admin@spcmsk.com" && loginData.password === "spcmsk2024") {
-      setIsAuthenticated(true);
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // Simple authentication for now
+    if (loginData.email === 'admin@croix.com' && loginData.password === 'croix2024') {
+      setIsAuthenticated(true)
       toast({
-        title: "Login exitoso",
-        description: "Bienvenido al panel de administración"
-      });
+        title: '¡Bienvenido!',
+        description: 'Has iniciado sesión correctamente',
+      })
     } else {
       toast({
-        title: "Error de login",
-        description: "Email o contraseña incorrectos",
-        variant: "destructive"
-      });
+        title: 'Error de autenticación',
+        description: 'Email o contraseña incorrectos',
+        variant: 'destructive'
+      })
     }
-  };
-
-  const handleSave = () => {
-    updateContent({
-      heroData,
-      bioData,
-      galleryPhotos: content.galleryPhotos, // Mantener fotos fijas
-      socialLinks,
-      videos
-    });
-    
-    // Trigger event to update preview immediately
-    window.dispatchEvent(new CustomEvent('adminContentUpdated'));
-    
-    toast({
-      title: "✅ Guardado exitoso",
-      description: "Los cambios han sido guardados correctamente y se han actualizado en el sitio web"
-    });
-  };
+  }
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
-    setLoginData({ email: "", password: "" });
+    setIsAuthenticated(false)
+    setLoginData({ email: '', password: '' })
     toast({
-      title: "Sesión cerrada",
-      description: "Has cerrado sesión correctamente"
-    });
-  };
+      title: 'Sesión cerrada',
+      description: 'Has cerrado sesión correctamente'
+    })
+  }
 
-  // Sync local state with context when component opens
-  useEffect(() => {
-    if (isOpen) {
-      setHeroData(content.heroData);
-      setBioData(content.bioData);
-      setSocialLinks(content.socialLinks);
-      setVideos(content.videos);
-    }
-  }, [isOpen, content]);
-
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-6xl max-h-[90vh] overflow-y-auto">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle className="text-2xl">Panel de Administración</CardTitle>
-            <CardDescription>Edita todo el contenido del sitio web</CardDescription>
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+      <div className="bg-background rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
+              <Shield className="w-6 h-6 text-primary" />
+            </div>
+            <div>
+              <h2 className="font-bold text-xl">Panel de Administración</h2>
+              <p className="text-sm text-muted-foreground">Gestiona tu presskit completo</p>
+            </div>
           </div>
-          <div className="flex gap-2">
+          
+          <div className="flex items-center gap-2">
             {isAuthenticated && (
-              <>
-                <Button onClick={handleSave} size="sm">
-                  <Save className="w-4 h-4 mr-2" />
-                  Guardar
-                </Button>
-                <Button onClick={handleLogout} variant="outline" size="sm">
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Cerrar Sesión
-                </Button>
-              </>
+              <Button onClick={handleLogout} variant="outline">
+                <LogOut className="w-4 h-4 mr-2" />
+                Cerrar sesión
+              </Button>
             )}
-            <Button onClick={onClose} variant="ghost" size="icon">
+            <Button variant="ghost" onClick={onClose}>
               <X className="w-4 h-4" />
             </Button>
           </div>
-        </CardHeader>
+        </div>
 
-        <CardContent>
+        {/* Content */}
+        <div className="flex-1 overflow-hidden">
           {!isAuthenticated ? (
-            <form onSubmit={handleLogin} className="space-y-4 max-w-md mx-auto">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={loginData.email}
-                  onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                  placeholder="admin@spcmsk.com"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Contraseña</Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    value={loginData.password}
-                    onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                    placeholder="••••••••"
-                    required
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-0 top-0 h-full"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </Button>
-                </div>
-              </div>
-              <Button type="submit" className="w-full">
-                Iniciar Sesión
-              </Button>
-            </form>
+            /* Login Form */
+            <div className="flex items-center justify-center h-96">
+              <Card className="w-full max-w-md">
+                <CardHeader className="text-center">
+                  <CardTitle>Iniciar Sesión</CardTitle>
+                  <CardDescription>
+                    Accede al panel de administración
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleLogin} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={loginData.email}
+                        onChange={(e) => setLoginData(prev => ({ ...prev, email: e.target.value }))}
+                        placeholder="admin@croix.com"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="password">Contraseña</Label>
+                      <Input
+                        id="password"
+                        type="password"
+                        value={loginData.password}
+                        onChange={(e) => setLoginData(prev => ({ ...prev, password: e.target.value }))}
+                        placeholder="••••••••"
+                        required
+                      />
+                    </div>
+                    <Button type="submit" className="w-full">
+                      Iniciar Sesión
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </div>
           ) : (
-            <Tabs defaultValue="hero" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="hero">Hero</TabsTrigger>
-                <TabsTrigger value="bio">Bio</TabsTrigger>
-                <TabsTrigger value="videos">Videos</TabsTrigger>
-                <TabsTrigger value="social">Redes</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="hero" className="space-y-4">
-                <h3 className="text-lg font-semibold">Editar Sección Hero</h3>
-                <div className="grid gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="hero-title">Título Principal</Label>
-                    <Input
-                      id="hero-title"
-                      value={heroData.title}
-                      onChange={(e) => setHeroData({ ...heroData, title: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="hero-subtitle">Subtítulo</Label>
-                    <Input
-                      id="hero-subtitle"
-                      value={heroData.subtitle}
-                      onChange={(e) => setHeroData({ ...heroData, subtitle: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="hero-desc1">Descripción 1</Label>
-                    <Input
-                      id="hero-desc1"
-                      value={heroData.description1}
-                      onChange={(e) => setHeroData({ ...heroData, description1: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="hero-desc2">Descripción 2</Label>
-                    <Input
-                      id="hero-desc2"
-                      value={heroData.description2}
-                      onChange={(e) => setHeroData({ ...heroData, description2: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="hero-bg">Imagen de Fondo (URL)</Label>
-                    <Input
-                      id="hero-bg"
-                      value={heroData.backgroundImage}
-                      onChange={(e) => setHeroData({ ...heroData, backgroundImage: e.target.value })}
-                    />
+            /* Admin Interface */
+            <div className="h-[calc(90vh-80px)] overflow-y-auto">
+              <div className="p-6">
+                <div className="text-center py-12">
+                  <Shield className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                  <h3 className="font-semibold text-lg mb-2">Panel de Administración</h3>
+                  <p className="text-muted-foreground mb-4">
+                    ¡Bienvenido al panel de administración de CROIX!
+                  </p>
+                  <div className="space-y-3 text-sm text-muted-foreground max-w-2xl mx-auto">
+                    <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800">
+                      <p className="font-medium mb-2">🔧 Configuración de Supabase requerida</p>
+                      <p>Para usar todas las funcionalidades del panel:</p>
+                      <ol className="list-decimal list-inside mt-2 space-y-1">
+                        <li>Revisa el archivo <code className="bg-yellow-100 px-1 rounded">SUPABASE_SETUP.md</code></li>
+                        <li>Crea un proyecto en Supabase</li>
+                        <li>Ejecuta las consultas SQL proporcionadas</li>
+                        <li>Configura las variables de entorno</li>
+                      </ol>
+                    </div>
+                    
+                    <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-blue-800">
+                      <p className="font-medium mb-2">📝 Guía de uso</p>
+                      <p>Lee la <code className="bg-blue-100 px-1 rounded">ADMIN_GUIDE.md</code> para aprender a usar todas las funcionalidades</p>
+                    </div>
                   </div>
                 </div>
-              </TabsContent>
-
-              <TabsContent value="bio" className="space-y-4">
-                <h3 className="text-lg font-semibold">Editar Sección Bio</h3>
-                <div className="grid gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="bio-title">Título</Label>
-                    <Input
-                      id="bio-title"
-                      value={bioData.title}
-                      onChange={(e) => setBioData({ ...bioData, title: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="bio-image">Imagen (URL)</Label>
-                    <Input
-                      id="bio-image"
-                      value={bioData.image}
-                      onChange={(e) => setBioData({ ...bioData, image: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="bio-p1">Párrafo 1</Label>
-                    <Textarea
-                      id="bio-p1"
-                      value={bioData.paragraph1}
-                      onChange={(e) => setBioData({ ...bioData, paragraph1: e.target.value })}
-                      rows={3}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="bio-p2">Párrafo 2</Label>
-                    <Textarea
-                      id="bio-p2"
-                      value={bioData.paragraph2}
-                      onChange={(e) => setBioData({ ...bioData, paragraph2: e.target.value })}
-                      rows={3}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="bio-p3">Párrafo 3</Label>
-                    <Textarea
-                      id="bio-p3"
-                      value={bioData.paragraph3}
-                      onChange={(e) => setBioData({ ...bioData, paragraph3: e.target.value })}
-                      rows={3}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="bio-p4">Párrafo 4</Label>
-                    <Textarea
-                      id="bio-p4"
-                      value={bioData.paragraph4}
-                      onChange={(e) => setBioData({ ...bioData, paragraph4: e.target.value })}
-                      rows={3}
-                    />
-                  </div>
+                
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 max-w-4xl mx-auto">
+                  <Card className="hover:shadow-lg transition-shadow">
+                    <CardContent className="p-6 text-center">
+                      <User className="w-12 h-12 mx-auto mb-4 text-primary" />
+                      <h4 className="font-medium mb-2">Editor de Biografía</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Editor de texto enriquecido con formato visual y vista previa
+                      </p>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="hover:shadow-lg transition-shadow">
+                    <CardContent className="p-6 text-center">
+                      <ImageIcon className="w-12 h-12 mx-auto mb-4 text-primary" />
+                      <h4 className="font-medium mb-2">Gestión de Imágenes</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Drag & drop, categorías automáticas, eliminar/descargar
+                      </p>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="hover:shadow-lg transition-shadow">
+                    <CardContent className="p-6 text-center">
+                      <Link2 className="w-12 h-12 mx-auto mb-4 text-primary" />
+                      <h4 className="font-medium mb-2">Redes Sociales</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Agregar/eliminar redes, validación automática de URLs
+                      </p>
+                    </CardContent>
+                  </Card>
                 </div>
-              </TabsContent>
-
-              <TabsContent value="videos" className="space-y-4">
-                <h3 className="text-lg font-semibold">Editar Videos de Presentaciones</h3>
-                <div className="space-y-4">
-                  {videos.map((video, index) => (
-                    <Card key={index}>
-                      <CardContent className="p-4">
-                        <div className="space-y-4">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                              <Label>Título del Video</Label>
-                              <Input
-                                value={video.title}
-                                onChange={(e) => {
-                                  const newVideos = [...videos];
-                                  newVideos[index].title = e.target.value;
-                                  setVideos(newVideos);
-                                }}
-                                placeholder="Título del video"
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label>ID del Video de YouTube</Label>
-                              <Input
-                                value={video.id}
-                                onChange={(e) => {
-                                  const newVideos = [...videos];
-                                  newVideos[index].id = e.target.value;
-                                  newVideos[index].embedUrl = `https://www.youtube.com/embed/${e.target.value}`;
-                                  setVideos(newVideos);
-                                }}
-                                placeholder="ID del video (ej: rQebU3T_oqU)"
-                              />
-                            </div>
-                          </div>
-                          <div className="space-y-2">
-                            <Label>Descripción</Label>
-                            <Input
-                              value={video.description || ""}
-                              onChange={(e) => {
-                                const newVideos = [...videos];
-                                newVideos[index].description = e.target.value;
-                                setVideos(newVideos);
-                              }}
-                              placeholder="Descripción del video"
-                            />
-                          </div>
-                          <div className="flex justify-end">
-                            <Button
-                              size="sm"
-                              variant="destructive"
-                              onClick={() => {
-                                const newVideos = videos.filter((_, i) => i !== index);
-                                setVideos(newVideos);
-                              }}
-                            >
-                              Eliminar Video
-                            </Button>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                  <Button
-                    onClick={() => {
-                      const newVideo = {
-                        id: "",
-                        title: "Nuevo Video",
-                        embedUrl: "",
-                        description: "Presentación en vivo • YouTube"
-                      };
-                      setVideos([...videos, newVideo]);
-                    }}
-                    className="w-full"
-                  >
-                    Agregar Nuevo Video
-                  </Button>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="social" className="space-y-4">
-                <h3 className="text-lg font-semibold">Editar Redes Sociales</h3>
-                <div className="space-y-4">
-                  {socialLinks.map((link, index) => (
-                    <Card key={index}>
-                      <CardContent className="p-4">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <Label>Plataforma</Label>
-                            <Input
-                              value={link.platform}
-                              onChange={(e) => {
-                                const newLinks = [...socialLinks];
-                                newLinks[index].platform = e.target.value;
-                                setSocialLinks(newLinks);
-                              }}
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <Label>URL</Label>
-                            <Input
-                              value={link.url}
-                              onChange={(e) => {
-                                const newLinks = [...socialLinks];
-                                newLinks[index].url = e.target.value;
-                                setSocialLinks(newLinks);
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <div className="flex justify-end mt-2">
-                          <Button
-                            size="sm"
-                            variant="destructive"
-                            onClick={() => {
-                              const newLinks = socialLinks.filter((_, i) => i !== index);
-                              setSocialLinks(newLinks);
-                            }}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                  <Button
-                    onClick={() => {
-                      const newLink = {
-                        platform: "Nueva Red Social",
-                        url: "https://"
-                      };
-                      setSocialLinks([...socialLinks, newLink]);
-                    }}
-                    className="w-full"
-                  >
-                    <Plus className="w-4 h-4 mr-2" />
-                    Agregar Nueva Red Social
-                  </Button>
-                </div>
-              </TabsContent>
-            </Tabs>
+              </div>
+            </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdminPanel;
+export default AdminPanel
