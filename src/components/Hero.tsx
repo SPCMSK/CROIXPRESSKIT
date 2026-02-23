@@ -2,13 +2,23 @@ import { Button } from "@/components/ui/button";
 import { useContent } from "@/contexts/ContentContext";
 
 const Hero = () => {
-  const { content } = useContent();
+  const { content, isLoading } = useContent();
+  
+  if (isLoading) {
+    return (
+      <section className="min-h-screen relative flex items-center justify-center bg-gradient-dark overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-overlay" />
+        <div className="relative z-10 text-center">
+          <div className="animate-pulse text-brand-teal text-2xl">Cargando...</div>
+        </div>
+      </section>
+    );
+  }
   
   return (
     <section className="min-h-screen relative flex items-center justify-center bg-gradient-dark overflow-hidden">
       {/* Background Image */}
       <div 
-        key={content.heroData.backgroundImage}
         className="absolute inset-0 bg-cover bg-no-repeat opacity-40"
         style={{
           backgroundImage: `url('${content.heroData.backgroundImage}')`,

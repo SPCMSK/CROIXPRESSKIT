@@ -1,7 +1,18 @@
 import { useContent } from "@/contexts/ContentContext";
 
 const Bio = () => {
-  const { content } = useContent();
+  const { content, isLoading } = useContent();
+  
+  if (isLoading) {
+    return (
+      <section className="py-20 bg-background">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <div className="animate-pulse text-brand-teal text-xl">Cargando biografía...</div>
+        </div>
+      </section>
+    );
+  }
+  
   return (
     <section className="py-20 bg-background">
       <div className="max-w-6xl mx-auto px-6">
@@ -38,7 +49,6 @@ const Bio = () => {
           <div className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-card">
               <img 
-                key={content.bioData.image}
                 src={content.bioData.image}
                 alt="CROIX Portrait"
                 className="w-full h-full object-cover"

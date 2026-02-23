@@ -108,17 +108,18 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
           console.log('✅ Contenido cargado desde Supabase');
           
           // Convertir formato Supabase a formato ContentContext
+          // IMPORTANTE: Hero y Bio images SIEMPRE usan valores fijos de defaultContent
           const loadedContent: ContentData = {
             heroData: {
               title: config.hero_data.title,
               subtitle: config.hero_data.subtitle,
               description1: config.hero_data.description1,
               description2: config.hero_data.description2,
-              backgroundImage: config.hero_data.background_image || defaultContent.heroData.backgroundImage
+              backgroundImage: defaultContent.heroData.backgroundImage // SIEMPRE usa imagen fija
             },
             bioData: {
               title: config.bio_data.title,
-              image: config.bio_data.image || defaultContent.bioData.image,
+              image: defaultContent.bioData.image, // SIEMPRE usa imagen fija
               paragraph1: config.bio_data.paragraph1,
               paragraph2: config.bio_data.paragraph2,
               paragraph3: config.bio_data.paragraph3,
