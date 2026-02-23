@@ -152,10 +152,25 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
     try {
       const result = await presskitService.uploadImage(file, 'hero');
       if (result) {
-        setHeroData(prev => ({ ...prev, backgroundImage: result.url }));
+        const updatedHeroData = { ...heroData, backgroundImage: result.url };
+        setHeroData(updatedHeroData);
+        
+        // Guardar automáticamente en Supabase y ContentContext
+        await presskitService.updateConfig({
+          hero_data: {
+            title: updatedHeroData.title,
+            subtitle: updatedHeroData.subtitle,
+            description1: updatedHeroData.description1,
+            description2: updatedHeroData.description2,
+            background_image: updatedHeroData.backgroundImage,
+          },
+        });
+        
+        updateContent({ heroData: updatedHeroData });
+        
         toast({
-          title: "✅ Imagen subida",
-          description: "Imagen de fondo actualizada",
+          title: "✅ Imagen guardada",
+          description: "Imagen de fondo actualizada y guardada",
         });
       }
     } catch (error) {
@@ -215,10 +230,19 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
     try {
       const result = await presskitService.uploadImage(file, 'bio');
       if (result) {
-        setBioData(prev => ({ ...prev, image: result.url }));
+        const updatedBioData = { ...bioData, image: result.url };
+        setBioData(updatedBioData);
+        
+        // Guardar automáticamente en Supabase y ContentContext
+        await presskitService.updateConfig({
+          bio_data: updatedBioData,
+        });
+        
+        updateContent({ bioData: updatedBioData });
+        
         toast({
-          title: "✅ Imagen subida",
-          description: "Imagen de biografía actualizada",
+          title: "✅ Imagen guardada",
+          description: "Imagen de biografía actualizada y guardada",
         });
       }
     } catch (error) {
