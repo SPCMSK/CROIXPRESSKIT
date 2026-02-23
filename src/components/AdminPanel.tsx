@@ -33,7 +33,10 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
 
   // Verificar configuración de Supabase
   useEffect(() => {
+    console.log('🚀 AdminPanel useEffect ejecutándose, isOpen:', isOpen)
+    
     const checkSupabaseConfig = async () => {
+      console.log('🔄 Iniciando verificación de Supabase...')
       setSupabaseStatus({ configured: false, loading: true })
       
       try {
