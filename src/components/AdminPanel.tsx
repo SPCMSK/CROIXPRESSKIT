@@ -62,6 +62,15 @@ interface SocialLink {
   url: string;
 }
 
+interface Release {
+  id: string;
+  title: string;
+  coverImage: string;
+  category: 'own' | 'remix' | 'va';
+  label?: string;
+  link?: string;
+}
+
 const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
   const { content, updateContent } = useContent();
   const { toast } = useToast();
@@ -77,6 +86,7 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
   const [galleryPhotos, setGalleryPhotos] = useState<GalleryPhoto[]>([]);
   const [videos, setVideos] = useState<Video[]>(content.videos);
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>(content.socialLinks);
+  const [releases, setReleases] = useState<Release[]>(content.releases);
 
   // Dialog states
   const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; type: string; id: string }>({ 
@@ -88,6 +98,13 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
   // New item states
   const [newVideo, setNewVideo] = useState({ title: '', url: '' });
   const [newSocial, setNewSocial] = useState({ platform: '', url: '' });
+  const [newRelease, setNewRelease] = useState({ 
+    title: '', 
+    coverImage: '', 
+    category: 'own' as 'own' | 'remix' | 'va', 
+    label: '', 
+    link: '' 
+  });
 
   // Drag state
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
@@ -110,6 +127,7 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
       
       setVideos(content.videos);
       setSocialLinks(content.socialLinks);
+      setReleases(content.releases);
     }
   }, [content, isAuthenticated]);
 
@@ -574,6 +592,106 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
     }
   };
 
+  // RELEASES SECTION
+  const handleReleaseImageUpload = async (files: File[], category: 'own' | 'remix' | 'va') => {
+    if (files.length === 0) return;
+    
+    setLoading(true);
+
+    try {
+      const uploadPromises = files.map(file => 
+        presskitService.uploadImage(file, 'releases')
+      );
+      
+      const results = await Promise.all(uploadPromises);
+      const newReleases: Release[] = results
+        .filter(result => result !== null)
+        .map(result => ({
+          id: result!.id,
+          title: result!.alt_text,
+          coverImage: result!.url,
+          category: category,
+          label: '',
+          link: '',
+        }));
+
+      setReleases(prev => [...prev, ...newReleases]);
+
+      toast({
+        title: "✅ Imágenes subidas",
+        description: `${newReleases.length} lanzamiento(s) agregado(s)`,
+      });
+    } catch (error) {
+      toast({
+        title: "❌ Error",
+        description: "No se pudieron subir algunas imágenes",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateRelease = (id: string, updates: Partial<Release>) => {
+    setReleases(prev => 
+      prev.map(release => 
+        release.id === id ? { ...release, ...updates } : release
+      )
+    );
+  };
+
+  const deleteRelease = (id: string) => {
+    setReleases(prev => prev.filter(release => release.id !== id));
+    setDeleteDialog({ open: false, type: '', id: '' });
+    toast({
+      title: "✅ Eliminado",
+      description: "Lanzamiento eliminado correctamente",
+    });
+  };
+
+  const saveReleases = async () => {
+    setLoading(true);
+    try {
+      await presskitService.updateConfig({
+        releases: releases,
+      });
+
+      updateContent({ releases });
+      window.dispatchEvent(new Event('adminContentUpdated'));
+
+      toast({
+        title: "✅ Guardado",
+        description: "Cambios en Lanzamientos guardados exitosamente",
+      });
+    } catch (error) {
+      toast({
+        title: "❌ Error",
+        description: "No se pudieron guardar los cambios",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const releasesOwnDropzone = useDropzone({
+    onDrop: (files) => handleReleaseImageUpload(files, 'own'),
+    accept: { 'image/*': ['.png', '.jpg', '.jpeg', '.webp'] },
+    multiple: true,
+  });
+
+  const releasesRemixDropzone = useDropzone({
+    onDrop: (files) => handleReleaseImageUpload(files, 'remix'),
+    accept: { 'image/*': ['.png', '.jpg', '.jpeg', '.webp'] },
+    multiple: true,
+  });
+
+  const releasesVaDropzone = useDropzone({
+    onDrop: (files) => handleReleaseImageUpload(files, 'va'),
+    accept: { 'image/*': ['.png', '.jpg', '.jpeg', '.webp'] },
+    multiple: true,
+  });
+
   if (!isOpen) return null;
 
   // Login Screen
@@ -674,6 +792,14 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
           >
             <Share2 className="mr-2 h-4 w-4" />
             Redes Sociales
+          </Button>
+          <Button
+            variant={currentTab === 'releases' ? 'default' : 'ghost'}
+            className="w-full justify-start"
+            onClick={() => setCurrentTab('releases')}
+          >
+            <ImageIcon className="mr-2 h-4 w-4" />
+            Lanzamientos
           </Button>
         </nav>
 
@@ -1178,6 +1304,223 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
               </Button>
             </div>
           )}
+
+          {/* RELEASES TAB */}
+          {currentTab === 'releases' && (
+            <div className="max-w-4xl mx-auto space-y-6">
+              <div>
+                <h1 className="text-3xl font-bold text-white mb-2">Lanzamientos</h1>
+                <p className="text-zinc-400">Gestiona todos los lanzamientos de CROIX</p>
+              </div>
+
+              {/* Lanzamientos Propios */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Lanzamientos Propios ({releases.filter(r => r.category === 'own').length})</CardTitle>
+                  <CardDescription>Sube nuevas portadas de lanzamientos propios</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div
+                    {...releasesOwnDropzone.getRootProps()}
+                    className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
+                      releasesOwnDropzone.isDragActive ? 'border-brand-teal bg-brand-teal/10' : 'border-zinc-700 hover:border-zinc-500'
+                    }`}
+                  >
+                    <input {...releasesOwnDropzone.getInputProps()} />
+                    <ImageIcon className="w-12 h-12 mx-auto mb-4 text-zinc-500" />
+                    <p className="text-zinc-400">
+                      {releasesOwnDropzone.isDragActive
+                        ? 'Suelta las imágenes aquí...'
+                        : 'Arrastra imágenes aquí o haz clic para seleccionar'}
+                    </p>
+                    <p className="text-sm text-zinc-500 mt-2">PNG, JPG, JPEG, WEBP</p>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {releases.filter(r => r.category === 'own').map((release) => (
+                      <div key={release.id} className="space-y-2">
+                        <div className="aspect-square relative overflow-hidden rounded-lg border border-zinc-800">
+                          <img
+                            src={release.coverImage}
+                            alt={release.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <Input
+                          value={release.title}
+                          onChange={(e) => updateRelease(release.id, { title: e.target.value })}
+                          placeholder="Título"
+                          className="text-sm"
+                        />
+                        <Input
+                          value={release.label || ''}
+                          onChange={(e) => updateRelease(release.id, { label: e.target.value })}
+                          placeholder="Sello (opcional)"
+                          className="text-sm"
+                        />
+                        <Input
+                          value={release.link || ''}
+                          onChange={(e) => updateRelease(release.id, { link: e.target.value })}
+                          placeholder="Link (opcional)"
+                          className="text-sm"
+                        />
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          className="w-full"
+                          onClick={() => setDeleteDialog({ open: true, type: 'release', id: release.id })}
+                        >
+                          <Trash2 className="h-3 w-3 mr-1" />
+                          Eliminar
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Remixes */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Remixes ({releases.filter(r => r.category === 'remix').length})</CardTitle>
+                  <CardDescription>Sube portadas de remixes</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div
+                    {...releasesRemixDropzone.getRootProps()}
+                    className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
+                      releasesRemixDropzone.isDragActive ? 'border-brand-teal bg-brand-teal/10' : 'border-zinc-700 hover:border-zinc-500'
+                    }`}
+                  >
+                    <input {...releasesRemixDropzone.getInputProps()} />
+                    <ImageIcon className="w-12 h-12 mx-auto mb-4 text-zinc-500" />
+                    <p className="text-zinc-400">
+                      {releasesRemixDropzone.isDragActive
+                        ? 'Suelta las imágenes aquí...'
+                        : 'Arrastra imágenes aquí o haz clic para seleccionar'}
+                    </p>
+                    <p className="text-sm text-zinc-500 mt-2">PNG, JPG, JPEG, WEBP</p>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {releases.filter(r => r.category === 'remix').map((release) => (
+                      <div key={release.id} className="space-y-2">
+                        <div className="aspect-square relative overflow-hidden rounded-lg border border-zinc-800">
+                          <img
+                            src={release.coverImage}
+                            alt={release.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <Input
+                          value={release.title}
+                          onChange={(e) => updateRelease(release.id, { title: e.target.value })}
+                          placeholder="Título"
+                          className="text-sm"
+                        />
+                        <Input
+                          value={release.label || ''}
+                          onChange={(e) => updateRelease(release.id, { label: e.target.value })}
+                          placeholder="Sello (opcional)"
+                          className="text-sm"
+                        />
+                        <Input
+                          value={release.link || ''}
+                          onChange={(e) => updateRelease(release.id, { link: e.target.value })}
+                          placeholder="Link (opcional)"
+                          className="text-sm"
+                        />
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          className="w-full"
+                          onClick={() => setDeleteDialog({ open: true, type: 'release', id: release.id })}
+                        >
+                          <Trash2 className="h-3 w-3 mr-1" />
+                          Eliminar
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* VA (Varios Artistas) */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Compilados VA ({releases.filter(r => r.category === 'va').length})</CardTitle>
+                  <CardDescription>Sube portadas de compilados VA</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div
+                    {...releasesVaDropzone.getRootProps()}
+                    className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
+                      releasesVaDropzone.isDragActive ? 'border-brand-teal bg-brand-teal/10' : 'border-zinc-700 hover:border-zinc-500'
+                    }`}
+                  >
+                    <input {...releasesVaDropzone.getInputProps()} />
+                    <ImageIcon className="w-12 h-12 mx-auto mb-4 text-zinc-500" />
+                    <p className="text-zinc-400">
+                      {releasesVaDropzone.isDragActive
+                        ? 'Suelta las imágenes aquí...'
+                        : 'Arrastra imágenes aquí o haz clic para seleccionar'}
+                    </p>
+                    <p className="text-sm text-zinc-500 mt-2">PNG, JPG, JPEG, WEBP</p>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {releases.filter(r => r.category === 'va').map((release) => (
+                      <div key={release.id} className="space-y-2">
+                        <div className="aspect-square relative overflow-hidden rounded-lg border border-zinc-800">
+                          <img
+                            src={release.coverImage}
+                            alt={release.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <Input
+                          value={release.title}
+                          onChange={(e) => updateRelease(release.id, { title: e.target.value })}
+                          placeholder="Título"
+                          className="text-sm"
+                        />
+                        <Input
+                          value={release.label || ''}
+                          onChange={(e) => updateRelease(release.id, { label: e.target.value })}
+                          placeholder="Sello (opcional)"
+                          className="text-sm"
+                        />
+                        <Input
+                          value={release.link || ''}
+                          onChange={(e) => updateRelease(release.id, { link: e.target.value })}
+                          placeholder="Link (opcional)"
+                          className="text-sm"
+                        />
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          className="w-full"
+                          onClick={() => setDeleteDialog({ open: true, type: 'release', id: release.id })}
+                        >
+                          <Trash2 className="h-3 w-3 mr-1" />
+                          Eliminar
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Button onClick={saveReleases} disabled={loading} className="w-full" size="lg">
+                {loading ? 'Guardando...' : (
+                  <>
+                    <Save className="mr-2 h-4 w-4" />
+                    Guardar Cambios en Lanzamientos
+                  </>
+                )}
+              </Button>
+            </div>
+          )}
         </ScrollArea>
       </div>
 
@@ -1190,7 +1533,8 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
               Esta acción no se puede deshacer. Se eliminará permanentemente{' '}
               {deleteDialog.type === 'photo' && 'esta foto de la galería'}
               {deleteDialog.type === 'video' && 'este video de la lista'}
-              {deleteDialog.type === 'social' && 'esta red social de la lista'}.
+              {deleteDialog.type === 'social' && 'esta red social de la lista'}
+              {deleteDialog.type === 'release' && 'este lanzamiento de la lista'}.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -1200,6 +1544,7 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
                 if (deleteDialog.type === 'photo') deletePhoto(deleteDialog.id);
                 if (deleteDialog.type === 'video') deleteVideo(deleteDialog.id);
                 if (deleteDialog.type === 'social') deleteSocialLink(parseInt(deleteDialog.id));
+                if (deleteDialog.type === 'release') deleteRelease(deleteDialog.id);
               }}
               className="bg-red-600 hover:bg-red-700"
             >

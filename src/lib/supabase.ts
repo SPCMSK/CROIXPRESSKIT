@@ -41,6 +41,14 @@ export interface PresskitConfig {
     featured: boolean
     category: 'dj' | 'studio' | 'press' | 'colabs' | 'releases'
   }>
+  releases: Array<{
+    id: string
+    title: string
+    coverImage: string
+    category: 'own' | 'remix' | 'va'
+    label?: string
+    link?: string
+  }>
   theme_colors: {
     primary: string
     secondary: string

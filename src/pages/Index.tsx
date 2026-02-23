@@ -3,6 +3,7 @@ import Navigation from "../components/Navigation";
 import Hero from "../components/Hero";
 import Bio from "../components/Bio";
 import PhotoGallery from "../components/PhotoGallery";
+import Releases from "../components/Releases";
 import VideoSets from "../components/VideoSets";
 import TechnicalRider from "../components/TechnicalRider";
 import Footer from "../components/Footer";
@@ -26,6 +27,10 @@ const Index = () => {
         
         <section id="photos">
           <PhotoGallery />
+        </section>
+        
+        <section id="releases">
+          <Releases />
         </section>
         
         <section id="video-sets">

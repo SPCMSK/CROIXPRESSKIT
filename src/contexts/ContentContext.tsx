@@ -32,6 +32,14 @@ interface ContentData {
     embedUrl: string;
     description?: string;
   }>;
+  releases: Array<{
+    id: string;
+    title: string;
+    coverImage: string;
+    category: 'own' | 'remix' | 'va';
+    label?: string;
+    link?: string;
+  }>;
 }
 
 interface ContentContextType {
@@ -86,6 +94,25 @@ const defaultContent: ContentData = {
       embedUrl: "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1698160352&color=%23ff00ff&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true",
       description: "Calentando EP • Gruvalismo"
     }
+  ],
+  releases: [
+    // Lanzamientos Propios
+    { id: "1", title: "Calentando EP", coverImage: "/PRESKIT MATERIAL/LANZAMIENTOS MIOS/CALENTANDO EP IMAGEN.jpg", category: "own", label: "Gruvalismo", link: "" },
+    { id: "2", title: "Calmao Noma", coverImage: "/PRESKIT MATERIAL/LANZAMIENTOS MIOS/CALMAO NOMA.jpg", category: "own", label: "", link: "" },
+    { id: "3", title: "Corte Gostoso EP", coverImage: "/PRESKIT MATERIAL/LANZAMIENTOS MIOS/CORTE GOSTOSO EP.jpg", category: "own", label: "", link: "" },
+    { id: "4", title: "Cover", coverImage: "/PRESKIT MATERIAL/LANZAMIENTOS MIOS/cover.png", category: "own", label: "", link: "" },
+    { id: "5", title: "Baila Conmigo", coverImage: "/PRESKIT MATERIAL/LANZAMIENTOS MIOS/CROIX BAILA CONMIGO.jpg", category: "own", label: "", link: "" },
+    { id: "6", title: "Hot Tools", coverImage: "/PRESKIT MATERIAL/LANZAMIENTOS MIOS/HOT TOOLS.jpg", category: "own", label: "", link: "" },
+    { id: "7", title: "Sustancia EP", coverImage: "/PRESKIT MATERIAL/LANZAMIENTOS MIOS/sustancia.jpg", category: "own", label: "KRAFT.rec", link: "" },
+    { id: "8", title: "Worker", coverImage: "/PRESKIT MATERIAL/LANZAMIENTOS MIOS/WORKER.webp", category: "own", label: "[One:Thirty]", link: "" },
+    // Remixes
+    { id: "9", title: "Laddie Remix", coverImage: "/PRESKIT MATERIAL/REMIX/laddie remix.jpg", category: "remix", label: "Lapsorecords", link: "" },
+    // VA (Varios Artistas)
+    { id: "10", title: "Keep It Fast", coverImage: "/PRESKIT MATERIAL/VA/keep it fast.jpeg", category: "va", label: "KEEPISTFAST", link: "" },
+    { id: "11", title: "Nasty Trax Vol.6", coverImage: "/PRESKIT MATERIAL/VA/NASTY TRAX.jpg", category: "va", label: "Nasty Trax", link: "" },
+    { id: "12", title: "Phantasos 03", coverImage: "/PRESKIT MATERIAL/VA/ONEIROS  VA.jpg", category: "va", label: "Oneiros Records", link: "" },
+    { id: "13", title: "Sum VA", coverImage: "/PRESKIT MATERIAL/VA/PORTADA SUM VA.jpg", category: "va", label: "", link: "" },
+    { id: "14", title: "One Thirty Vol. 2", coverImage: "/PRESKIT MATERIAL/VA/VA ONE THRITY.webp", category: "va", label: "[One:Thirty]", link: "" },
   ]
 };
 
@@ -131,7 +158,8 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
               featured: photo.featured
             })) || defaultContent.galleryPhotos,
             socialLinks: config.social_links || defaultContent.socialLinks,
-            videos: config.videos || defaultContent.videos
+            videos: config.videos || defaultContent.videos,
+            releases: config.releases || defaultContent.releases
           };
           
           setContent(loadedContent);
