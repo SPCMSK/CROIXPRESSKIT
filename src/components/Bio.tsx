@@ -38,6 +38,7 @@ const Bio = () => {
           <div className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-card">
               <img 
+                key={content.bioData.image}
                 src={content.bioData.image}
                 alt="CROIX Portrait"
                 className="w-full h-full object-cover"

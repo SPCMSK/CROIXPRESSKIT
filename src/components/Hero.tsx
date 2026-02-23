@@ -3,10 +3,12 @@ import { useContent } from "@/contexts/ContentContext";
 
 const Hero = () => {
   const { content } = useContent();
+  
   return (
     <section className="min-h-screen relative flex items-center justify-center bg-gradient-dark overflow-hidden">
       {/* Background Image */}
       <div 
+        key={content.heroData.backgroundImage}
         className="absolute inset-0 bg-cover bg-no-repeat opacity-40"
         style={{
           backgroundImage: `url('${content.heroData.backgroundImage}')`,
