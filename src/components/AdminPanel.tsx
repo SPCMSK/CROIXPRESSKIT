@@ -167,6 +167,7 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
         });
         
         updateContent({ heroData: updatedHeroData });
+        window.dispatchEvent(new Event('adminContentUpdated'));
         
         toast({
           title: "✅ Imagen guardada",
@@ -204,6 +205,7 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
       });
 
       updateContent({ heroData });
+      window.dispatchEvent(new Event('adminContentUpdated'));
 
       toast({
         title: "✅ Guardado",
@@ -239,6 +241,7 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
         });
         
         updateContent({ bioData: updatedBioData });
+        window.dispatchEvent(new Event('adminContentUpdated'));
         
         toast({
           title: "✅ Imagen guardada",
@@ -270,6 +273,7 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
       });
 
       updateContent({ bioData });
+      window.dispatchEvent(new Event('adminContentUpdated'));
 
       toast({
         title: "✅ Guardado",
@@ -383,6 +387,7 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
         featured: photo.featured,
       }));
       updateContent({ galleryPhotos: simplePhotos });
+      window.dispatchEvent(new Event('adminContentUpdated'));
 
       toast({
         title: "✅ Guardado",
@@ -486,6 +491,7 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
       });
 
       updateContent({ videos });
+      window.dispatchEvent(new Event('adminContentUpdated'));
 
       toast({
         title: "✅ Guardado",
@@ -551,6 +557,7 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
       });
 
       updateContent({ socialLinks });
+      window.dispatchEvent(new Event('adminContentUpdated'));
 
       toast({
         title: "✅ Guardado",

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { presskitService } from '@/lib/supabase';
 
 interface ContentData {
   heroData: {
@@ -36,6 +37,7 @@ interface ContentData {
 interface ContentContextType {
   content: ContentData;
   updateContent: (newContent: Partial<ContentData>) => void;
+  isLoading: boolean;
 }
 
 const defaultContent: ContentData = {
@@ -91,88 +93,88 @@ const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export const ContentProvider = ({ children }: { children: ReactNode }) => {
   const [content, setContent] = useState<ContentData>(defaultContent);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Load saved content from localStorage on mount and listen for changes
+  // Load content from Supabase on mount
   useEffect(() => {
-    const loadContent = () => {
-      const savedContent = localStorage.getItem('adminData');
-      if (savedContent) {
-        try {
-          const parsed = JSON.parse(savedContent);
+    const loadContentFromSupabase = async () => {
+      console.log('🔄 Cargando contenido desde Supabase...');
+      setIsLoading(true);
+      
+      try {
+        const config = await presskitService.getConfig();
+        
+        if (config) {
+          console.log('✅ Contenido cargado desde Supabase');
           
-          // IMPORTANTE: Usar galleryPhotos fijas de defaultContent
-          // No permitir cambios en las fotos de la galería
-          const completeContent = {
-            heroData: parsed.heroData || defaultContent.heroData,
-            bioData: parsed.bioData || defaultContent.bioData,
-            galleryPhotos: defaultContent.galleryPhotos, // SIEMPRE usar fotos fijas
-            socialLinks: parsed.socialLinks || defaultContent.socialLinks,
-            videos: parsed.videos || defaultContent.videos
+          // Convertir formato Supabase a formato ContentContext
+          const loadedContent: ContentData = {
+            heroData: {
+              title: config.hero_data.title,
+              subtitle: config.hero_data.subtitle,
+              description1: config.hero_data.description1,
+              description2: config.hero_data.description2,
+              backgroundImage: config.hero_data.background_image || defaultContent.heroData.backgroundImage
+            },
+            bioData: {
+              title: config.bio_data.title,
+              image: config.bio_data.image || defaultContent.bioData.image,
+              paragraph1: config.bio_data.paragraph1,
+              paragraph2: config.bio_data.paragraph2,
+              paragraph3: config.bio_data.paragraph3,
+              paragraph4: config.bio_data.paragraph4
+            },
+            galleryPhotos: config.gallery_photos?.map(photo => ({
+              src: photo.src,
+              alt: photo.alt,
+              featured: photo.featured
+            })) || defaultContent.galleryPhotos,
+            socialLinks: config.social_links || defaultContent.socialLinks,
+            videos: config.videos || defaultContent.videos
           };
           
-          setContent(completeContent);
-        } catch (error) {
-          console.error('❌ Error loading saved content:', error);
+          setContent(loadedContent);
+        } else {
+          console.log('⚠️ No hay datos en Supabase, usando defaults');
           setContent(defaultContent);
         }
-      } else {
+      } catch (error) {
+        console.error('❌ Error cargando desde Supabase:', error);
         setContent(defaultContent);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    // Load initial content
-    loadContent();
+    loadContentFromSupabase();
 
-    // Listen for localStorage changes (from admin panel)
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'adminData' && e.newValue) {
-        try {
-          const parsed = JSON.parse(e.newValue);
-          const completeContent = {
-            heroData: parsed.heroData || defaultContent.heroData,
-            bioData: parsed.bioData || defaultContent.bioData,
-            galleryPhotos: defaultContent.galleryPhotos, // SIEMPRE usar fotos fijas
-            socialLinks: parsed.socialLinks || defaultContent.socialLinks,
-            videos: parsed.videos || defaultContent.videos
-          };
-          setContent(completeContent);
-        } catch (error) {
-          console.error('❌ Error loading updated content:', error);
-        }
-      }
+    // Escuchar eventos de actualización del admin
+    const handleAdminUpdate = () => {
+      console.log('🔄 Admin actualizó contenido, recargando...');
+      loadContentFromSupabase();
     };
 
-    // Also listen for custom events (for same-tab updates)
-    const handleContentUpdate = () => {
-      loadContent();
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('adminContentUpdated', handleContentUpdate);
+    window.addEventListener('adminContentUpdated', handleAdminUpdate);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('adminContentUpdated', handleContentUpdate);
+      window.removeEventListener('adminContentUpdated', handleAdminUpdate);
     };
   }, []);
 
   const updateContent = (newContent: Partial<ContentData>) => {
     setContent(prev => {
       const updated = { ...prev, ...newContent };
+      console.log('📝 Actualizando contenido local:', newContent);
       
-      // Save to localStorage whenever content is updated
-      try {
-        const dataToSave = JSON.stringify(updated);
-        localStorage.setItem('adminData', dataToSave);
-      } catch (error) {
-        console.error('❌ Error guardando en localStorage:', error);
-      }
+      // Disparar evento para que otros componentes se actualicen
+      window.dispatchEvent(new Event('adminContentUpdated'));
+      
       return updated;
     });
   };
 
   return (
-    <ContentContext.Provider value={{ content, updateContent }}>
+    <ContentContext.Provider value={{ content, updateContent, isLoading }}>
       {children}
     </ContentContext.Provider>
   );
