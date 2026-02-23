@@ -1,11 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { useContent } from "@/contexts/ContentContext";
-import { usePressKit } from "@/hooks/use-presskit";
-import { Download, FileText } from "lucide-react";
 
 const Hero = () => {
   const { content } = useContent();
-  const { downloadPressKitText, downloadPressKitJSON } = usePressKit();
   return (
     <section className="min-h-screen relative flex items-center justify-center bg-gradient-dark overflow-hidden">
       {/* Background Image */}
@@ -39,27 +36,6 @@ const Hero = () => {
             <p className="text-text-muted text-base md:text-lg">
               {content.heroData.description2}
             </p>
-          </div>
-          
-          <div className="pt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button 
-              onClick={downloadPressKitText}
-              variant="presskit"
-              size="lg" 
-              className="px-6 py-3 text-base rounded-xl flex items-center gap-2"
-            >
-              <FileText className="w-5 h-5" />
-              Descargar Press Kit (TXT)
-            </Button>
-            <Button 
-              onClick={downloadPressKitJSON}
-              variant="outline"
-              size="lg" 
-              className="px-6 py-3 text-base rounded-xl flex items-center gap-2 border-brand-teal text-brand-teal hover:bg-brand-teal hover:text-brand-darker"
-            >
-              <Download className="w-5 h-5" />
-              Descargar Datos (JSON)
-            </Button>
           </div>
         </div>
       </div>
