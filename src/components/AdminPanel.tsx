@@ -651,10 +651,17 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
 
   const saveReleases = async () => {
     setLoading(true);
+    console.log('🔄 Intentando guardar releases:', releases);
     try {
-      await presskitService.updateConfig({
+      const success = await presskitService.updateConfig({
         releases: releases,
       });
+
+      console.log('✅ Resultado de updateConfig:', success);
+
+      if (!success) {
+        throw new Error('updateConfig returned false');
+      }
 
       updateContent({ releases });
       window.dispatchEvent(new Event('adminContentUpdated'));
@@ -664,9 +671,11 @@ const AdminPanel = ({ isOpen, onClose }: AdminPanelProps) => {
         description: "Cambios en Lanzamientos guardados exitosamente",
       });
     } catch (error) {
+      console.error('❌ Error completo al guardar releases:', error);
+      console.error('❌ Releases que intentamos guardar:', JSON.stringify(releases, null, 2));
       toast({
         title: "❌ Error",
-        description: "No se pudieron guardar los cambios",
+        description: "No se pudieron guardar los cambios. Revisa la consola para más detalles.",
         variant: "destructive",
       });
     } finally {

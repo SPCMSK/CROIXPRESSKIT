@@ -94,19 +94,31 @@ export const presskitService = {
 
   // Update configuration
   async updateConfig(config: Partial<PresskitConfig>): Promise<boolean> {
-    const { error } = await supabase
+    const dataToUpdate = {
+      id: 'main',
+      ...config,
+      updated_at: new Date().toISOString()
+    };
+    
+    console.log('🔄 Intentando actualizar en Supabase:', JSON.stringify(dataToUpdate, null, 2));
+    
+    const { error, data } = await supabase
       .from('presskit_config')
-      .upsert({
-        id: 'main',
-        ...config,
-        updated_at: new Date().toISOString()
-      })
+      .upsert(dataToUpdate)
+      .select()
     
     if (error) {
-      console.error('Error updating config:', error)
+      console.error('❌ Error updating config:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+        fullError: error
+      })
       return false
     }
     
+    console.log('✅ Actualización exitosa en Supabase:', data);
     return true
   },
 
