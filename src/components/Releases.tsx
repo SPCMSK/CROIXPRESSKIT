@@ -52,37 +52,60 @@ const Releases = () => {
               className="w-full"
             >
               <CarouselContent className="-ml-2 md:-ml-4">
-                {ownReleases.map((release, index) => (
-                  <CarouselItem key={index} className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                    <Card className="bg-background-dark border-border hover:border-brand-teal transition-all duration-300 group">
-                      <CardContent className="p-4">
-                        <div className="aspect-square relative overflow-hidden rounded-lg mb-4">
-                          <img
-                            src={release.coverImage}
-                            alt={release.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <h4 className="font-display font-bold text-lg text-foreground group-hover:text-brand-teal transition-colors">
-                            {release.title}
-                          </h4>
-                          {release.label && (
-                            <p className="text-sm text-text-muted">{release.label}</p>
-                          )}
-                          {release.link && (
-                            <a
-                              href={release.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 text-sm text-brand-teal hover:underline"
-                            >
-                              Escuchar <ExternalLink className="w-4 h-4" />
-                            </a>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
+                {ownReleases.map((release) => (
+                  <CarouselItem key={release.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+                    {release.link ? (
+                      <a 
+                        href={release.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block h-full"
+                      >
+                        <Card className="bg-background-dark border-border hover:border-brand-teal transition-all duration-300 group cursor-pointer h-full">
+                          <CardContent className="p-4">
+                            <div className="aspect-square relative overflow-hidden rounded-lg mb-4">
+                              <img
+                                src={release.coverImage}
+                                alt={release.title}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                              />
+                              <div className="absolute inset-0 bg-brand-teal/0 group-hover:bg-brand-teal/10 transition-colors duration-300" />
+                            </div>
+                            <div className="space-y-2">
+                              <h4 className="font-display font-bold text-lg text-foreground group-hover:text-brand-teal transition-colors">
+                                {release.title}
+                              </h4>
+                              {release.label && (
+                                <p className="text-sm text-text-muted">{release.label}</p>
+                              )}
+                              <div className="inline-flex items-center gap-2 text-sm text-brand-teal">
+                                Escuchar <ExternalLink className="w-4 h-4" />
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </a>
+                    ) : (
+                      <Card className="bg-background-dark border-border h-full">
+                        <CardContent className="p-4">
+                          <div className="aspect-square relative overflow-hidden rounded-lg mb-4">
+                            <img
+                              src={release.coverImage}
+                              alt={release.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <h4 className="font-display font-bold text-lg text-foreground">
+                              {release.title}
+                            </h4>
+                            {release.label && (
+                              <p className="text-sm text-text-muted">{release.label}</p>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -106,37 +129,60 @@ const Releases = () => {
               className="w-full"
             >
               <CarouselContent className="-ml-2 md:-ml-4">
-                {remixes.map((release, index) => (
-                  <CarouselItem key={index} className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                    <Card className="bg-background-dark border-border hover:border-brand-teal transition-all duration-300 group">
-                      <CardContent className="p-4">
-                        <div className="aspect-square relative overflow-hidden rounded-lg mb-4">
-                          <img
-                            src={release.coverImage}
-                            alt={release.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <h4 className="font-display font-bold text-lg text-foreground group-hover:text-brand-teal transition-colors">
-                            {release.title}
-                          </h4>
-                          {release.label && (
-                            <p className="text-sm text-text-muted">{release.label}</p>
-                          )}
-                          {release.link && (
-                            <a
-                              href={release.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 text-sm text-brand-teal hover:underline"
-                            >
-                              Escuchar <ExternalLink className="w-4 h-4" />
-                            </a>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
+                {remixes.map((release) => (
+                  <CarouselItem key={release.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+                    {release.link ? (
+                      <a 
+                        href={release.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block h-full"
+                      >
+                        <Card className="bg-background-dark border-border hover:border-brand-teal transition-all duration-300 group cursor-pointer h-full">
+                          <CardContent className="p-4">
+                            <div className="aspect-square relative overflow-hidden rounded-lg mb-4">
+                              <img
+                                src={release.coverImage}
+                                alt={release.title}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                              />
+                              <div className="absolute inset-0 bg-brand-teal/0 group-hover:bg-brand-teal/10 transition-colors duration-300" />
+                            </div>
+                            <div className="space-y-2">
+                              <h4 className="font-display font-bold text-lg text-foreground group-hover:text-brand-teal transition-colors">
+                                {release.title}
+                              </h4>
+                              {release.label && (
+                                <p className="text-sm text-text-muted">{release.label}</p>
+                              )}
+                              <div className="inline-flex items-center gap-2 text-sm text-brand-teal">
+                                Escuchar <ExternalLink className="w-4 h-4" />
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </a>
+                    ) : (
+                      <Card className="bg-background-dark border-border h-full">
+                        <CardContent className="p-4">
+                          <div className="aspect-square relative overflow-hidden rounded-lg mb-4">
+                            <img
+                              src={release.coverImage}
+                              alt={release.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <h4 className="font-display font-bold text-lg text-foreground">
+                              {release.title}
+                            </h4>
+                            {release.label && (
+                              <p className="text-sm text-text-muted">{release.label}</p>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -160,37 +206,60 @@ const Releases = () => {
               className="w-full"
             >
               <CarouselContent className="-ml-2 md:-ml-4">
-                {vaReleases.map((release, index) => (
-                  <CarouselItem key={index} className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                    <Card className="bg-background-dark border-border hover:border-brand-teal transition-all duration-300 group">
-                      <CardContent className="p-4">
-                        <div className="aspect-square relative overflow-hidden rounded-lg mb-4">
-                          <img
-                            src={release.coverImage}
-                            alt={release.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <h4 className="font-display font-bold text-lg text-foreground group-hover:text-brand-teal transition-colors">
-                            {release.title}
-                          </h4>
-                          {release.label && (
-                            <p className="text-sm text-text-muted">{release.label}</p>
-                          )}
-                          {release.link && (
-                            <a
-                              href={release.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 text-sm text-brand-teal hover:underline"
-                            >
-                              Escuchar <ExternalLink className="w-4 h-4" />
-                            </a>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
+                {vaReleases.map((release) => (
+                  <CarouselItem key={release.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+                    {release.link ? (
+                      <a 
+                        href={release.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block h-full"
+                      >
+                        <Card className="bg-background-dark border-border hover:border-brand-teal transition-all duration-300 group cursor-pointer h-full">
+                          <CardContent className="p-4">
+                            <div className="aspect-square relative overflow-hidden rounded-lg mb-4">
+                              <img
+                                src={release.coverImage}
+                                alt={release.title}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                              />
+                              <div className="absolute inset-0 bg-brand-teal/0 group-hover:bg-brand-teal/10 transition-colors duration-300" />
+                            </div>
+                            <div className="space-y-2">
+                              <h4 className="font-display font-bold text-lg text-foreground group-hover:text-brand-teal transition-colors">
+                                {release.title}
+                              </h4>
+                              {release.label && (
+                                <p className="text-sm text-text-muted">{release.label}</p>
+                              )}
+                              <div className="inline-flex items-center gap-2 text-sm text-brand-teal">
+                                Escuchar <ExternalLink className="w-4 h-4" />
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </a>
+                    ) : (
+                      <Card className="bg-background-dark border-border h-full">
+                        <CardContent className="p-4">
+                          <div className="aspect-square relative overflow-hidden rounded-lg mb-4">
+                            <img
+                              src={release.coverImage}
+                              alt={release.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <h4 className="font-display font-bold text-lg text-foreground">
+                              {release.title}
+                            </h4>
+                            {release.label && (
+                              <p className="text-sm text-text-muted">{release.label}</p>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
                   </CarouselItem>
                 ))}
               </CarouselContent>
