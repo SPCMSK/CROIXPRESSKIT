@@ -67,7 +67,7 @@ const Bio = () => {
             
             <div className="space-y-4 text-text-secondary">
               <p>
-                Su presencia en la escena underground se extiende por festivales y eventos en el **norte de Chile** durante años nuevos, participando en **Nebula** y diversos eventos en la zona norte, mientras que en Santiago ha marcado territorio en **Matrix** y otros espacios emblemáticos de la cultura de club.
+                Croix a lo largo de su carrera a participado en los line up de diversas fiestas tanto en el norte  como en la zona centro de Chile.
               </p>
               
               <p>
